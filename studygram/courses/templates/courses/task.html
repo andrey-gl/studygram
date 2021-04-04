@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Задача - {{ task.name }}{% endblock %}
+
+
+{% block sidebar %}
+{% include 'inc/_sidebar.html' %}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-2 item">
+        {{ task.name }}
+    </div>
+</div>
+<div>
+    <div class="col-lg-3 item">
+        {{ task.description }}
+    </div>
+</div>
+{% endblock %}

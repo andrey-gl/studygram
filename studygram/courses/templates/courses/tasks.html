@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Страница со всеми задачами{% endblock %}
+
+
+{% block sidebar %}
+{% include 'inc/_sidebar.html' %}
+{% endblock %}
+
+
+{% block content %}
+
+{% for task in tasks %}
+<div class="row">
+    <div class="col-lg-2 item">
+        <a href="{{ task.get_absolute_url }}">{{ task.name }}</a>
+    </div>
+    <div class="col-lg-3 item">
+        {{ task.description }}
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
