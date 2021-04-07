@@ -3,3 +3,21 @@
     <li class="list-group-item"><a href="{% url 'tasks' %}?status={{ status.pk }}">{{ status.name }}</a></li>
     {% endfor %}
 </ul>
+
+<ul class="list-group" Style="margin-top: 5rem;">
+    <label><b>ПРЕПОДАВАТЕЛИ</b></label>
+    <select class="form-select" size="5" onchange="location = this.value">
+      {% for teacher in teachers %}
+        <option value="{% url 'tasks' %}?teacher={{ teacher.id }}"> {{teacher}} </option>
+        {% endfor %}
+    </select>
+</ul>
+
+<ul class="list-group" Style="margin-top: 5rem;">
+    <label><b>СТУДЕНТЫ</b></label>
+    <select class="form-select" size="5" onchange="location = this.value">
+      {% for student in students %}
+        <option value="{% url 'tasks' %}?student={{ student.id }}"> {{student}} </option>
+        {% endfor %}
+    </select>
+</ul>

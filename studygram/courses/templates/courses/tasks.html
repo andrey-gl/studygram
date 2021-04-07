@@ -9,14 +9,27 @@
 
 
 {% block content %}
-
+<a class="btn btn-primary" href="/create_task">Добавить задание</a>
 {% for task in tasks %}
-<div class="row">
-    <div class="col-lg-2 item">
+<div class="row" Style="margin-top: 3rem;">
+    <div class="col-lg-5 item">
         <a href="{{ task.get_absolute_url }}">{{ task.name }}</a>
     </div>
-    <div class="col-lg-3 item">
+    <div class="col-lg-5 item">
         {{ task.description }}
+    </div>
+    <div class="col-lg-5 item">
+        {% for teacher  in task.Teacher.all %}
+        {{teacher.first_name}} {{teacher.last_name}}
+        {% endfor %}
+    </div>
+    <div class="col-lg-5 item">
+        {% for student  in task.Student.all %}
+        {{student.first_name}} {{student.last_name}}
+        {% endfor %}
+    </div>
+    <div class="col-lg-5 item">
+        {{ task.status }}
     </div>
 </div>
 {% endfor %}

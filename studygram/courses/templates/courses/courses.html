@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Страница со всеми курсами{% endblock %}
+
+
+{% block sidebar %}
+{% include 'inc/_sidebar.html' %}
+{% endblock %}
+
+
+{% block content %}
+<a class="btn btn-primary" href="/create_course">Добавить курс</a>
+{% for course in courses %}
+<div class="row" Style="margin-top: 3rem;">
+    <div class="col-lg-4 item">
+        <a href="{{ task.get_absolute_url }}">{{ course.name }}</a>
+    </div>
+    <div class="col-lg-5 item">
+        {% for teacher  in course.teachers.all %}
+        {{teacher.first_name}} {{teacher.last_name}}
+        {% endfor %}
+    </div>
+    <div class="col-lg-6 item">
+        {% for student  in course.students.all %}
+        {{student.first_name}} {{student.last_name}}
+        {% endfor %}
+    </div>
+    <div class="col-lg-7 item">
+        {{ task.status }}
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

@@ -20,4 +20,28 @@
         {{ task.description }}
     </div>
 </div>
+<div>
+    <div class="col-lg-4 item">
+        {% for teacher  in task.Teacher.all %}
+        {{teacher.first_name}} {{teacher.last_name}}
+        {% endfor %}
+    </div>
+</div>
+<div>
+    <div class="col-lg-5 item">
+        {% for student  in task.Student.all %}
+        {{student.first_name}} {{student.last_name}}
+        {% endfor %}
+    </div>
+</div>
+<div>
+    <div class="col-lg-6 item">
+        {{task.Start_date}}
+    </div>
+</div>
+<div>
+    <div class="col-lg-7 item">
+        {{task.Deadline}}
+    </div>
+</div>
 {% endblock %}
