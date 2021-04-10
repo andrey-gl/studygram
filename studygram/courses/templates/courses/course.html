@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Курс - {{ course.name }}{% endblock %}
+
+{% block sidebar %}
+<ul class="list-group">
+    {% for status in statuses %}
+    <li class="list-group-item"><a href="{% url 'course' pk=pk %}?status={{ status.pk }}">{{ status.name }}</a></li>
+    {% endfor %}
+</ul>
+
+<ul class="list-group" Style="margin-top: 5rem;">
+    <label><b>ПРЕПОДАВАТЕЛИ</b></label>
+    <select class="form-select" size="5" onchange="location = this.value">
+      {% for teacher in teachers %}
+        <option value="{% url 'course' pk=pk %}?teacher={{ teacher.id }}"> {{teacher}} </option>
+        {% endfor %}
+    </select>
+</ul>
+
+<ul class="list-group" Style="margin-top: 5rem;">
+    <label><b>СТУДЕНТЫ</b></label>
+    <select class="form-select" size="5" onchange="location = this.value">
+      {% for student in students %}
+        <option value="{% url 'course' pk=pk%}?student={{ student.id }}"> {{student}} </option>
+        {% endfor %}
+    </select>
+</ul>
+{% endblock %}
+
+{% block content %}
+
+<table class="table table-boarded">
+    <thead>
+        <tr>
+            <th><input type="checkbox" name="task" value="{{task.pk}}"></th>
+            <th>Название</th>
+            <th>Начало</th>
+            <th>Окончание</th>
+            <th>Преподаватели</th>
+            <th>Студенты</th>
+        </tr>
+    </thead>
+    <tbody>
+    {%for task in tasks%}
+    <tr>
+        <td><input type="checkbox" name="task" value="{{task.pk}}"></td>
+        <td>{{task.name}}</td>
+        <td>{{task.Start_date}}</td>
+        <td>{{task.Deadline}}</td>
+        <td>
+            {%for teacher in task.Teacher.all%}
+                {{teacher.first_name}} {{teacher.last_name}},
+            {%endfor%}
+        </td>
+        <td>
+            {%for student in task.Student.all%}
+                {{student.first_name}} {{student.last_name}},
+            {%endfor%}
+        </td>
+    </tr>
+    {%endfor%}
+    </tbody>
+</table>
+{% if is_paginated %}
+  <ul class="pagination pagination-sm">
+    {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="page-item active"><span class="page-link">{{ i }} </span></li>
+      {% else %}
+        <li><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+
+  </ul>
+{% endif %}
+{% endblock %}

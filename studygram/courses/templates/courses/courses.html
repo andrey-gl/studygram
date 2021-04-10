@@ -2,32 +2,76 @@
 
 {% block title %}Страница со всеми курсами{% endblock %}
 
-
 {% block sidebar %}
-{% include 'inc/_sidebar.html' %}
+<ul class="list-group">
+    {% for status in statuses %}
+    <li class="list-group-item"><a href="{% url 'courses' %}?status={{ status.pk }}">{{ status.name }}</a></li>
+    {% endfor %}
+</ul>
+
+<ul class="list-group" Style="margin-top: 5rem;">
+    <label><b>ПРЕПОДАВАТЕЛИ</b></label>
+    <select class="form-select" size="5" onchange="location = this.value">
+      {% for teacher in teachers %}
+        <option value="{% url 'courses' %}?teacher={{ teacher.id }}"> {{teacher}} </option>
+        {% endfor %}
+    </select>
+</ul>
+
+<ul class="list-group" Style="margin-top: 5rem;">
+    <label><b>СТУДЕНТЫ</b></label>
+    <select class="form-select" size="5" onchange="location = this.value">
+      {% for student in students %}
+        <option value="{% url 'courses' %}?student={{ student.id }}"> {{student}} </option>
+        {% endfor %}
+    </select>
+</ul>
 {% endblock %}
 
 
 {% block content %}
-<a class="btn btn-primary" href="/create_course">Добавить курс</a>
-{% for course in courses %}
-<div class="row" Style="margin-top: 3rem;">
-    <div class="col-lg-4 item">
-        <a href="{{ task.get_absolute_url }}">{{ course.name }}</a>
-    </div>
-    <div class="col-lg-5 item">
-        {% for teacher  in course.teachers.all %}
-        {{teacher.first_name}} {{teacher.last_name}}
-        {% endfor %}
-    </div>
-    <div class="col-lg-6 item">
-        {% for student  in course.students.all %}
-        {{student.first_name}} {{student.last_name}}
-        {% endfor %}
-    </div>
-    <div class="col-lg-7 item">
-        {{ task.status }}
-    </div>
-</div>
-{% endfor %}
+<a class="btn btn-primary" href="/create_course" >Добавить курс </a>
+<table class="table table-bordered" Style="margin-top: 2rem;">
+  <thead>
+    <tr>
+      <th><input type="checkbox" name="course"></th>
+      <th scope="col">Название</th>
+      <th scope="col">Преподаватели</th>
+      <th scope="col">Студенты</th>
+      <th scope="col">Статус</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for course in courses %}
+    <tr>
+        <td><input type="checkbox" name="task" value="{{course.pk}}"></td>
+      <td><a href="{{course.get_absolute_url}}">{{course.name}}</a></td>
+      <td>
+          {% for teacher in course.teachers.all %}
+            {{teacher.first_name}} {{teacher.last_name}}
+          {% endfor %}
+      </td>
+      <td>
+          {% for student in course.students.all %}
+            {{student.first_name}} {{student.last_name}},
+          {% endfor %}
+      </td>
+      <td>{{course.status}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% if is_paginated %}
+  <ul class="pagination pagination-sm">
+    {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="page-item active"><span class="page-link">{{ i }} </span></li>
+      {% else %}
+        <li><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+
+  </ul>
+{% endif %}
 {% endblock %}
+
