@@ -31,7 +31,8 @@
 
 {% block content %}
 <a class="btn btn-primary" href="/create_course" >Добавить курс </a>
-<table class="table table-bordered" Style="margin-top: 2rem;">
+<button type="submit" class="btn btn-primary" id="delete-button">Удалить</button>
+<table class="table table-bordered" id="courses-table" Style="margin-top: 2rem;">
   <thead>
     <tr>
       <th><input type="checkbox" name="course"></th>
@@ -43,8 +44,8 @@
   </thead>
   <tbody>
   {% for course in courses %}
-    <tr>
-        <td><input type="checkbox" name="task" value="{{course.pk}}"></td>
+    <tr id="course">
+        <td><input type="checkbox" name="course" value="{{course.pk}}"></td>
       <td><a href="{{course.get_absolute_url}}">{{course.name}}</a></td>
       <td>
           {% for teacher in course.teachers.all %}
@@ -74,4 +75,3 @@
   </ul>
 {% endif %}
 {% endblock %}
-

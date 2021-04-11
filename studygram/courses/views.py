@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Task, StatusTask, User, Course, StatusCourse
 from .forms import TaskCreateForm, CourseCreateForm
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from django.urls import reverse_lazy
 
 # TODO: Добавить удаление
@@ -91,7 +91,11 @@ class CoursesList(ListView):
             queryset = Course.objects.filter(students=student_query)
         else:
             queryset = Course.objects.all()
+        print(self.request.GET)
         return queryset
+
+    def post(self, request, *args, **kwargs):
+        pass
 
 # TODO: Добавить фильтры на курсы
 
