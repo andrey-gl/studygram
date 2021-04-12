@@ -9,9 +9,8 @@
     {% endfor %}
 </ul>
 
-<ul class="list-group" Style="margin-top: 5rem;">
-    <label><b>ПРЕПОДАВАТЕЛИ</b></label>
-    <select class="form-select" size="5" onchange="location = this.value">
+<ul class="list-group"  Style="margin-top: 5rem;">
+    <select class="form-select" size="5"  id="teacher-select"onchange="location = this.value" placeholder="Преподаватели">
       {% for teacher in teachers %}
         <option value="{% url 'courses' %}?teacher={{ teacher.id }}"> {{teacher}} </option>
         {% endfor %}
@@ -19,13 +18,13 @@
 </ul>
 
 <ul class="list-group" Style="margin-top: 5rem;">
-    <label><b>СТУДЕНТЫ</b></label>
-    <select class="form-select" size="5" onchange="location = this.value">
+    <select class="form-select" size="5"  id="student-select"onchange="location = this.value" placeholder="Преподаватели">
       {% for student in students %}
         <option value="{% url 'courses' %}?student={{ student.id }}"> {{student}} </option>
         {% endfor %}
     </select>
 </ul>
+
 {% endblock %}
 
 
@@ -74,4 +73,5 @@
 
   </ul>
 {% endif %}
+
 {% endblock %}
