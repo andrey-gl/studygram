@@ -56,29 +56,25 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light position-fixed fixed-right fixed-top menu">
         <div class="container flex-column">
             <form class="navbar-nav flex-column">
-                <div class="nav-item dropdown form-group filters">
-                    <input class="form-control" list="datalistTeachers" id="exampleDataList" placeholder="ПРЕПОДАВАТЕЛИ">
-                    <datalist id="datalistTeachers">
-                        <option value="Поиск...">
-                        <option value="Владимиров Владимир">
-                        <option value="Андреев Андрей">
-                        <option value="Семёнов Семён">
-                        <option value="Эдуардов Эдуард">
-                    </datalist>
+                <div class="nav-item dropdown form-group">
+                    <select class="js-data-example-ajax filters form-select"  placeholder="СТУДЕНТЫ">
+                        <option selected disabled>ПО ПРЕПОДАВАТЕЛЮ</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
                 </div>
-                <div class="nav-item dropdown form-group filters">
-                    <input class="form-control" list="datalistStudents" id="exampleDataList" placeholder="СТУДЕНТЫ">
-                    <datalist id="datalistStudents">
-                        <option value="Поиск...">
-                        <option value="Владимиров Владимир">
-                        <option value="Андреев Андрей">
-                        <option value="Семёнов Семён">
-                        <option value="Эдуардов Эдуард">
-                    </datalist>
+                <div class="nav-item dropdown form-group">
+                    <select class="js-data-example-ajax filters form-select"  placeholder="СТУДЕНТЫ">
+                        <option selected disabled>ПО СТУДЕНТУ</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
                 </div>
                 <div class="navbar-nav dropdown form-group filters">
                     <form class="form-inline">
-                        <select class="form-select" aria-label="Default select example" placeholder="СТУДЕНТЫ">
+                        <select class="js-data-example-ajax form-select" aria-label="Default select example" placeholder="СТУДЕНТЫ">
                             <option selected disabled>ПО СТАТУСУ</option>
                             <option value="1">Все проекты</option>
                             <option value="2">Активные проекты</option>
