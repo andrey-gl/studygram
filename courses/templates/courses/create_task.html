@@ -1,10 +1,15 @@
 {% extends "base.html" %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 <form action="{% url 'create_task' %}" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary btn-block">Добавить задание</button>
+    <div style="height: auto; margin-right: 2rem; padding-top: 7rem; padding-left: 2rem;
+                margin-bottom: 3rem;}">
+        {{ form|crispy}}
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-block" style="margin-top: 2rem;">Добавить курс</button>
+        </div>
+    </div>
 </form>
 
 {% endblock %}
