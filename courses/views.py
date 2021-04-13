@@ -4,7 +4,7 @@ from .forms import TaskCreateForm, CourseCreateForm
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect, HttpResponse
-
+from django.db.models import Q
 """Функции ниже относятся к странице "Задания" """
 
 
@@ -80,10 +80,18 @@ class CoursesList(ListView):
         return context
 
     def get_queryset(self):
+        search_query = self.request.GET.get('search')
         status_query = self.request.GET.get('status')
         teacher_query = self.request.GET.get('teacher')
         student_query = self.request.GET.get('student')
-        if teacher_query is not None:
+        print(search_query)
+        if search_query is not None:
+            queryset = self.model.objects.filter(Q(name__icontains=search_query) |
+                                                 Q(teachers__first_name__icontains=search_query) |
+                                                 Q(students__first_name__icontains=search_query) |
+                                                 Q(status__name__icontains=search_query)).distinct()
+            print(queryset)
+        elif teacher_query is not None:
             queryset = Course.objects.filter(teachers=teacher_query)
         elif status_query is not None:
             queryset = Course.objects.filter(status_id=int(status_query))
@@ -91,6 +99,7 @@ class CoursesList(ListView):
             queryset = Course.objects.filter(students=student_query)
         else:
             queryset = Course.objects.all()
+        print(queryset)
         return queryset
 
     def post(self, request, *args, **kwargs):
@@ -127,10 +136,13 @@ class CourseView(ListView):
         return context
 
     def get_queryset(self):
+        search_query = self.request.GET.get('search')
         status_query = self.request.GET.get('status')
         teacher_query = self.request.GET.get('teacher')
         student_query = self.request.GET.get('student')
-        if status_query is not None:
+        if search_query is not None:
+            queryset = Task.objects.filter(name__icontains=search_query)
+        elif status_query is not None:
             queryset = Task.objects.filter(course=self.kwargs['pk'], status=int(status_query))
         elif teacher_query is not None:
             queryset = Task.objects.filter(course=self.kwargs['pk'], Teacher=teacher_query)

@@ -6,8 +6,6 @@
 
 {% block content %}
 <div class="flex-column main_block">
-        <form id = "courseform" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить данные курсы?')">
-            {% csrf_token %}
         <div class="container main_block_header">
             <div class="main_block_title">Таблица курсов</div>
             <div>
@@ -18,26 +16,10 @@
             </div>
         </div>
         <div class="main_block_page">
-            <div class="container row">
-                <div class="col-8">
-                    <form class="d-flex">
-                        <select class="form-select size_actions" aria-label="Default select example">
-                            <option selected>Действия</option>
-                            <option value="1">Удалить</option>
-                        </select>
-                        <button type="submit" class="btn btn-success size_actions">
-                            Применить
-                        </button>
-                    </form>
-                <div class="col-4">
-                    <form class="d-flex justify-content-end">
-                        <input type="text" class="form-control seach" placeholder="Поиск">
-                    </form>
-                </div>
-            </div>
-
-            </div>
+            {% include 'inc/_table_head.html'%}
             <hr>
+            <form id = "courseform" method="post">
+            {% csrf_token %}
             <div class="d-flex flex-row main_block_header_tasks">
                 <div class="col-1">
                     <div class="form-check">
@@ -57,7 +39,7 @@
             <div class="d-flex flex-row task align-center align-items-center">
                 <div class="col-1">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="{{course.pk}}">
+                        <input class="form-check-input" type="checkbox" name="course" value="{{course.pk}}">
                         <input type="hidden" name="course-li" value="{{course.pk}}">
                     </div>
                 </div>
@@ -76,8 +58,13 @@
                 </div>
                 <div class="col"></div>
                 <div class="col-2 d-flex justify-content-start">
-                    <i class="bi bi-dot text-danger"></i>
-                    <span class="text-danger">{{course.status}}</span>
+                    {% if course.status.name == 'Активный' %}
+                        <i class="bi bi-dot text-success"></i>
+                        <span class="text-success">{{course.status}}</span>
+                    {% else %}
+                        <i class="bi bi-dot text-danger"></i>
+                        <span class="text-danger">{{course.status}}</span>
+                    {% endif %}
                 </div>
                 <div class="col d-flex justify-content-end">
                     <ul class="navbar-nav dropdown">

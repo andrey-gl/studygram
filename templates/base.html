@@ -41,5 +41,13 @@
     tags: true
 });
 </script>
+<script>
+    $('#options').on('change', function(){
+        if($(this).find('option:selected').text()=="Удалить")
+            $("#btnsubmit").attr('disabled', false)
+        else
+            $("#btnsubmit").attr('disabled', true)
+    });
+</script>
 </body>
 </html>
