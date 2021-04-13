@@ -3,10 +3,8 @@ from .models import Task, StatusTask, User, Course, StatusCourse
 from .forms import TaskCreateForm, CourseCreateForm
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from django.urls import reverse_lazy
-from django.http import JsonResponse
+from django.http import HttpResponseRedirect, HttpResponse
 
-# TODO: Добавить удаление
-# TODO: Добавить поиск в фильтрах студенты/преподаватели
 """Функции ниже относятся к странице "Задания" """
 
 
@@ -14,7 +12,7 @@ class TasksList(ListView):
     model = Task
     template_name = 'courses/tasks.html'
     context_object_name = 'tasks'
-    paginate_by = 4
+    paginate_by = 10
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -71,7 +69,8 @@ class CoursesList(ListView):
     model = Course
     template_name = 'courses/courses.html'
     context_object_name = 'courses'
-    paginate_by = 3
+    success_url = reverse_lazy('courses')
+    paginate_by = 10
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -95,16 +94,28 @@ class CoursesList(ListView):
         return queryset
 
     def post(self, request, *args, **kwargs):
-        pass
-
-# TODO: Добавить фильтры на курсы
+        courses = self.request.POST.getlist('course')
+        single_course = self.request.POST.getlist('course-li')
+        print(self.request.POST.getlist)
+        if courses:
+            courses = [int(course) for course in courses]
+            for course in courses:
+                Course.objects.get(pk=course).delete()
+            return HttpResponseRedirect(reverse_lazy('courses'))
+        elif single_course:
+            single_course = [int(course) for course in single_course]
+            print(single_course)
+            Course.objects.get(pk=single_course[0]).delete()
+            return HttpResponseRedirect(reverse_lazy('courses'))
+        else:
+            return HttpResponse(status=400)
 
 
 class CourseView(ListView):
     model = Task
     template_name = 'courses/course.html'
     context_object_name = 'tasks'
-    paginate_by = 3
+    paginate_by = 10
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -112,6 +123,7 @@ class CourseView(ListView):
         context['students'] = User.objects.filter(Type=2)
         context['statuses'] = StatusTask.objects.all()
         context['pk'] = self.kwargs['pk']
+        context['course'] = self.model.objects.get(course=self.kwargs['pk']).course
         return context
 
     def get_queryset(self):

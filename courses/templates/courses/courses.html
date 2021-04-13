@@ -1,77 +1,99 @@
 {% extends "base.html" %}
 
-{% block title %}Страница со всеми курсами{% endblock %}
-
 {% block sidebar %}
-<ul class="list-group">
-    {% for status in statuses %}
-    <li class="list-group-item"><a href="{% url 'courses' %}?status={{ status.pk }}">{{ status.name }}</a></li>
-    {% endfor %}
-</ul>
-
-<ul class="list-group"  Style="margin-top: 5rem;">
-    <select class="form-select" size="5"  id="teacher-select"onchange="location = this.value" placeholder="Преподаватели">
-      {% for teacher in teachers %}
-        <option value="{% url 'courses' %}?teacher={{ teacher.id }}"> {{teacher}} </option>
-        {% endfor %}
-    </select>
-</ul>
-
-<ul class="list-group" Style="margin-top: 5rem;">
-    <select class="form-select" size="5"  id="student-select"onchange="location = this.value" placeholder="Преподаватели">
-      {% for student in students %}
-        <option value="{% url 'courses' %}?student={{ student.id }}"> {{student}} </option>
-        {% endfor %}
-    </select>
-</ul>
-
+{% include 'inc/_sidebar_courses.html' %}
 {% endblock %}
 
-
 {% block content %}
-<a class="btn btn-primary" href="/create_course" >Добавить курс </a>
-<button type="submit" class="btn btn-primary" id="delete-button">Удалить</button>
-<table class="table table-bordered" id="courses-table" Style="margin-top: 2rem;">
-  <thead>
-    <tr>
-      <th><input type="checkbox" name="course"></th>
-      <th scope="col">Название</th>
-      <th scope="col">Преподаватели</th>
-      <th scope="col">Студенты</th>
-      <th scope="col">Статус</th>
-    </tr>
-  </thead>
-  <tbody>
-  {% for course in courses %}
-    <tr id="course">
-        <td><input type="checkbox" name="course" value="{{course.pk}}"></td>
-      <td><a href="{{course.get_absolute_url}}">{{course.name}}</a></td>
-      <td>
-          {% for teacher in course.teachers.all %}
-            {{teacher.first_name}} {{teacher.last_name}}
-          {% endfor %}
-      </td>
-      <td>
-          {% for student in course.students.all %}
-            {{student.first_name}} {{student.last_name}},
-          {% endfor %}
-      </td>
-      <td>{{course.status}}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% if is_paginated %}
-  <ul class="pagination pagination-sm">
-    {% for i in paginator.page_range %}
-      {% if page_obj.number == i %}
-        <li class="page-item active"><span class="page-link">{{ i }} </span></li>
-      {% else %}
-        <li><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-      {% endif %}
-    {% endfor %}
+<div class="flex-column main_block">
+        <form id = "courseform" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить данные курсы?')">
+            {% csrf_token %}
+        <div class="container main_block_header">
+            <div class="main_block_title">Таблица курсов</div>
+            <div>
+                <a class="btn btn-success" href="/create_course">
+                    <i class="bi bi-plus"></i>
+                    &#32;Создать курс
+                </a>
+            </div>
+        </div>
+        <div class="main_block_page">
+            <div class="container row">
+                <div class="col-8">
+                    <form class="d-flex">
+                        <select class="form-select size_actions" aria-label="Default select example">
+                            <option selected>Действия</option>
+                            <option value="1">Удалить</option>
+                        </select>
+                        <button type="submit" class="btn btn-success size_actions">
+                            Применить
+                        </button>
+                    </form>
+                <div class="col-4">
+                    <form class="d-flex justify-content-end">
+                        <input type="text" class="form-control seach" placeholder="Поиск">
+                    </form>
+                </div>
+            </div>
 
-  </ul>
-{% endif %}
-
+            </div>
+            <hr>
+            <div class="d-flex flex-row main_block_header_tasks">
+                <div class="col-1">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="course" value="">
+                    </div>
+                </div>
+                <div class="col-3 d-flex justify-content-start">Название курса</div>
+                <div class="col"></div>
+                <div class="col-2 d-flex justify-content-start">Преподаватели</div>
+                <div class="col"></div>
+                <div class="col-3 d-flex justify-content-start">Студенты</div>
+                <div class="col"></div>
+                <div class="col-2 d-flex justify-content-start">Статус</div>
+                <div class="col"></div>
+            </div>
+             {% for course in courses %}
+            <div class="d-flex flex-row task align-center align-items-center">
+                <div class="col-1">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="{{course.pk}}">
+                        <input type="hidden" name="course-li" value="{{course.pk}}">
+                    </div>
+                </div>
+                <div class="col-3 d-flex justify-content-start content_size text-primary"><a href="{{course.get_absolute_url}}">{{course.name}}</a></div>
+                <div class="col"></div>
+                <div class="col-2 d-flex justify-content-start content_size">
+                    {% for teacher in course.teachers.all %}
+                        {{teacher.first_name}} {{teacher.last_name}}
+                    {% endfor %}
+                </div>
+                <div class="col"></div>
+                <div class="col-3 d-flex justify-content-start content_size">
+                    {% for student in course.students.all %}
+                        {{student.first_name}} {{student.last_name}},
+                    {% endfor %}
+                </div>
+                <div class="col"></div>
+                <div class="col-2 d-flex justify-content-start">
+                    <i class="bi bi-dot text-danger"></i>
+                    <span class="text-danger">{{course.status}}</span>
+                </div>
+                <div class="col d-flex justify-content-end">
+                    <ul class="navbar-nav dropdown">
+                        <li class="nav-item" role="tab">
+                            <i class="bi bi-three-dots-vertical dropdown-toggle text-secondary other" data-bs-toggle="dropdown" id="taskDropdown"></i>
+                            <ul class="dropdown-menu" aria-labelledby="taskDropdown">
+                                <li class="dropdown-header">Прочее</li>
+                                <li class="dropdown-item" onclick="courseform.submit()">Удалить</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% endfor %}
+            {% include 'inc/_pagination.html' %}
+        </div>
+        </form>
+    </div>
 {% endblock %}

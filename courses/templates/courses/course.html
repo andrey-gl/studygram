@@ -1,77 +1,110 @@
 {% extends "base.html" %}
 
-{% block title %}Курс - {{ course.name }}{% endblock %}
 
 {% block sidebar %}
-<ul class="list-group">
-    {% for status in statuses %}
-    <li class="list-group-item"><a href="{% url 'course' pk=pk %}?status={{ status.pk }}">{{ status.name }}</a></li>
-    {% endfor %}
-</ul>
-
-<ul class="list-group" Style="margin-top: 5rem;">
-    <label><b>ПРЕПОДАВАТЕЛИ</b></label>
-    <select class="form-select" size="5" onchange="location = this.value">
-      {% for teacher in teachers %}
-        <option value="{% url 'course' pk=pk %}?teacher={{ teacher.id }}"> {{teacher}} </option>
-        {% endfor %}
-    </select>
-</ul>
-
-<ul class="list-group" Style="margin-top: 5rem;">
-    <label><b>СТУДЕНТЫ</b></label>
-    <select class="form-select" size="5" onchange="location = this.value">
-      {% for student in students %}
-        <option value="{% url 'course' pk=pk%}?student={{ student.id }}"> {{student}} </option>
-        {% endfor %}
-    </select>
-</ul>
+{% include 'inc/_sidebar_courses.html' %}
 {% endblock %}
 
 {% block content %}
+<div class="flex-column main_block">
+        <form id = "courseform" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить данные курсы?')">
+            {% csrf_token %}
+        <div class="container main_block_header">
+            <div class="main_block_title">{{course}}: задачи</div>
+            <div>
+                <a class="btn btn-success" href="/create_task">
+                    <i class="bi bi-plus"></i>
+                    &#32;Создать задачу
+                </a>
+            </div>
+        </div>
+        <div class="main_block_page">
+            <div class="container row">
+                <div class="col-8">
+                    <form class="d-flex">
+                        <select class="form-select size_actions" aria-label="Default select example">
+                            <option selected>Действия</option>
+                            <option value="1">Удалить</option>
+                        </select>
+                        <button type="submit" class="btn btn-success size_actions">
+                            Применить
+                        </button>
+                    </form>
+                </div>
+                <div class="col-4">
+                    <form class="d-flex justify-content-end">
+                        <input type="text" class="form-control seach" placeholder="Поиск">
+                    </form>
+                </div>
+            </div>
+            <hr>
+            <div class="d-flex flex-row main_block_header_tasks">
+                <div class="col-1">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="course" value="">
+                    </div>
+                </div>
+                <div class="col-2 d-flex justify-content-start">Название курса</div>
+                <div class="col"></div>
+                <div class="col-1 d-flex justify-content-start">Начало</div>
+                <div class="col"></div>
+                <div class="col-1 d-flex justify-content-start">Окончание</div>
+                <div class="col"></div>
+                <div class="col-2 d-flex justify-content-start">Преподаватели</div>
+                <div class="col"></div>
+                <div class="col-3 d-flex justify-content-start">Студенты</div>
+                <div class="col"></div>
+                <div class="col-1 d-flex justify-content-start">Статус</div>
+                <div class="col"></div>
 
-<table class="table table-boarded">
-    <thead>
-        <tr>
-            <th><input type="checkbox" name="task" value="{{task.pk}}"></th>
-            <th>Название</th>
-            <th>Начало</th>
-            <th>Окончание</th>
-            <th>Преподаватели</th>
-            <th>Студенты</th>
-        </tr>
-    </thead>
-    <tbody>
-    {%for task in tasks%}
-    <tr>
-        <td><input type="checkbox" name="task" value="{{task.pk}}"></td>
-        <td>{{task.name}}</td>
-        <td>{{task.Start_date}}</td>
-        <td>{{task.Deadline}}</td>
-        <td>
-            {%for teacher in task.Teacher.all%}
-                {{teacher.first_name}} {{teacher.last_name}},
-            {%endfor%}
-        </td>
-        <td>
-            {%for student in task.Student.all%}
-                {{student.first_name}} {{student.last_name}},
-            {%endfor%}
-        </td>
-    </tr>
-    {%endfor%}
-    </tbody>
-</table>
-{% if is_paginated %}
-  <ul class="pagination pagination-sm">
-    {% for i in paginator.page_range %}
-      {% if page_obj.number == i %}
-        <li class="page-item active"><span class="page-link">{{ i }} </span></li>
-      {% else %}
-        <li><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-      {% endif %}
-    {% endfor %}
+            </div>
+             {% for task in tasks %}
+            <div class="d-flex flex-row task align-center align-items-center">
+                <div class="col-1">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="{{course.pk}}">
+                        <input type="hidden" name="course-li" value="{{course.pk}}">
+                    </div>
+                </div>
+                <div class="col-2 d-flex justify-content-start content_size text-primary"><a href="{{course.get_absolute_url}}">{{task.name}}</a></div>
+                <div class="col"></div>
+                <div class="col-1 d-flex justify-content-start content_size">{{task.Start_date}}</div>
+                <div class="col"></div>
+                <div class="col-1 d-flex justify-content-start">{{task.Deadline}}</div>
+                <div class="col"></div>
+                <div class="col-2 d-flex justify-content-start content_size">
+                    {% for teacher in task.Teacher.all %}
+                        {{teacher.first_name}} {{teacher.last_name}}
+                    {% endfor %}
+                </div>
+                <div class="col"></div>
+                <div class="col-3 d-flex justify-content-start content_size">
+                    {% for student in task.Student.all %}
+                        {{student.first_name}} {{student.last_name}},
+                    {% endfor %}
+                </div>
+                <div class="col"></div>
+                <div class="col-1 d-flex justify-content-start">
+                    <i class="bi bi-dot text-danger"></i>
+                    <span class="text-danger">{{task.status}}</span>
+                </div>
+                <div class="col d-flex justify-content-end">
+                    <ul class="navbar-nav dropdown">
+                        <li class="nav-item" role="tab">
+                            <i class="bi bi-three-dots-vertical dropdown-toggle text-secondary other" data-bs-toggle="dropdown" id="taskDropdown"></i>
+                            <ul class="dropdown-menu" aria-labelledby="taskDropdown">
+                                <li class="dropdown-header">Прочее</li>
+                                <li class="dropdown-item" onclick="courseform.submit()">Удалить</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% endfor %}
 
-  </ul>
-{% endif %}
+            {%include 'inc/_pagination.html'%}
+
+        </div>
+        </form>
+    </div>
 {% endblock %}

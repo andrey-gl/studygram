@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light position-fixed fixed-right fixed-top menu">
+        <div class="container flex-column">
+            <form class="navbar-nav flex-column">
+                <div class="nav-item dropdown form-group filters">
+                    <select class="form-select"  placeholder="СТУДЕНТЫ" id="teacher-select" onchange="location = this.value">
+                     <option selected disabled>ПО ПРЕПОДАВАТЕЛЮ</option>
+                        {% for teacher in teachers %}
+                            <option value="{% url 'courses' %}?teacher={{ teacher.id }}"> {{teacher}} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="nav-item dropdown form-group filters">
+                    <select class="form-select"  placeholder="СТУДЕНТЫ" id="student-select" onchange="location = this.value">
+                        <option selected disabled>ПО СТУДЕНТУ</option>
+                        {% for student in students %}
+                            <option value="{% url 'courses' %}?student={{ student.id }}"> {{student}} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="navbar-nav dropdown form-group filters">
+                    <form class="form-inline">
+                        <select class="js-data-example-ajax form-select" aria-label="Default select example" placeholder="СТУДЕНТЫ" onchange="location = this.value">
+                            <option selected disabled>ПО СТАТУСУ</option>
+                            {% for status in statuses %}
+                                <option value="{% url 'courses' %}?status={{ status.pk }}"> {{status.name}} </option>
+                            {% endfor %}>
+                        </select>
+                    </form>
+
+                </div>
+            </form>
+        </div>
+    </nav>
