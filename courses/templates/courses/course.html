@@ -31,11 +31,11 @@
                 <div class="col"></div>
                 <div class="col-1 d-flex justify-content-start">Начало</div>
                 <div class="col"></div>
-                <div class="col-1 d-flex justify-content-start">Окончание</div>
+                <div class="col-2 d-flex justify-content-start">Окончание</div>
                 <div class="col"></div>
                 <div class="col-2 d-flex justify-content-start">Преподаватели</div>
                 <div class="col"></div>
-                <div class="col-3 d-flex justify-content-start">Студенты</div>
+                <div class="col-2 d-flex justify-content-start">Студенты</div>
                 <div class="col"></div>
                 <div class="col-1 d-flex justify-content-start">Статус</div>
                 <div class="col"></div>
@@ -53,7 +53,7 @@
                 <div class="col"></div>
                 <div class="col-1 d-flex justify-content-start content_size">{{task.Start_date}}</div>
                 <div class="col"></div>
-                <div class="col-1 d-flex justify-content-start">{{task.Deadline}}</div>
+                <div class="col-2 d-flex justify-content-start">{{task.Deadline}}</div>
                 <div class="col"></div>
                 <div class="col-2 d-flex justify-content-start content_size">
                     {% for teacher in task.Teacher.all %}
@@ -61,7 +61,7 @@
                     {% endfor %}
                 </div>
                 <div class="col"></div>
-                <div class="col-3 d-flex justify-content-start content_size">
+                <div class="col-2 d-flex justify-content-start content_size">
                     {% for student in task.Student.all %}
                         {{student.first_name}} {{student.last_name}},
                     {% endfor %}
