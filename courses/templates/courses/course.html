@@ -19,24 +19,7 @@
             </div>
         </div>
         <div class="main_block_page">
-            <div class="container row">
-                <div class="col-8">
-                    <form class="d-flex">
-                        <select class="form-select size_actions" aria-label="Default select example">
-                            <option selected>Действия</option>
-                            <option value="1">Удалить</option>
-                        </select>
-                        <button type="submit" class="btn btn-success size_actions">
-                            Применить
-                        </button>
-                    </form>
-                </div>
-                <div class="col-4">
-                    <form class="d-flex justify-content-end">
-                        <input type="text" class="form-control seach" placeholder="Поиск">
-                    </form>
-                </div>
-            </div>
+            {% include 'inc/_table_head.html' %}
             <hr>
             <div class="d-flex flex-row main_block_header_tasks">
                 <div class="col-1">
@@ -62,7 +45,7 @@
             <div class="d-flex flex-row task align-center align-items-center">
                 <div class="col-1">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="{{course.pk}}">
+                        <input class="form-check-input" type="checkbox" name="course" value="{{course.pk}}">
                         <input type="hidden" name="course-li" value="{{course.pk}}">
                     </div>
                 </div>
@@ -101,7 +84,6 @@
                 </div>
             </div>
             {% endfor %}
-
             {%include 'inc/_pagination.html'%}
 
         </div>

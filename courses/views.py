@@ -84,13 +84,11 @@ class CoursesList(ListView):
         status_query = self.request.GET.get('status')
         teacher_query = self.request.GET.get('teacher')
         student_query = self.request.GET.get('student')
-        print(search_query)
         if search_query is not None:
             queryset = self.model.objects.filter(Q(name__icontains=search_query) |
                                                  Q(teachers__first_name__icontains=search_query) |
                                                  Q(students__first_name__icontains=search_query) |
                                                  Q(status__name__icontains=search_query)).distinct()
-            print(queryset)
         elif teacher_query is not None:
             queryset = Course.objects.filter(teachers=teacher_query)
         elif status_query is not None:
@@ -99,13 +97,11 @@ class CoursesList(ListView):
             queryset = Course.objects.filter(students=student_query)
         else:
             queryset = Course.objects.all()
-        print(queryset)
         return queryset
 
     def post(self, request, *args, **kwargs):
         courses = self.request.POST.getlist('course')
         single_course = self.request.POST.getlist('course-li')
-        print(self.request.POST.getlist)
         if courses:
             courses = [int(course) for course in courses]
             for course in courses:
@@ -140,6 +136,7 @@ class CourseView(ListView):
         status_query = self.request.GET.get('status')
         teacher_query = self.request.GET.get('teacher')
         student_query = self.request.GET.get('student')
+        print(self.kwargs['pk'])
         if search_query is not None:
             queryset = Task.objects.filter(name__icontains=search_query)
         elif status_query is not None:
