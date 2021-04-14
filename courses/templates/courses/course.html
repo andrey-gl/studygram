@@ -10,7 +10,7 @@
         <form id = "courseform" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить данные курсы?')">
             {% csrf_token %}
         <div class="container main_block_header">
-            <div class="main_block_title">{{course}}: задачи</div>
+            <div class="main_block_title">{{courses.name}}: задачи</div>
             <div>
                 <a class="btn btn-success" href="/create_task">
                     <i class="bi bi-plus"></i>
@@ -46,7 +46,7 @@
                 <div class="col-1">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="course" value="{{course.pk}}">
-                        <input type="hidden" name="course-li" value="{{course.pk}}">
+                        <input type="hidden" name="{{course.pk}}" value="{{course.pk}}">
                     </div>
                 </div>
                 <div class="col-2 d-flex justify-content-start content_size text-primary"><a href="{{course.get_absolute_url}}">{{task.name}}</a></div>

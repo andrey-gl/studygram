@@ -102,6 +102,7 @@ class CoursesList(ListView):
     def post(self, request, *args, **kwargs):
         courses = self.request.POST.getlist('course')
         single_course = self.request.POST.getlist('course-li')
+        print(self.request.POST.getlist)
         if courses:
             courses = [int(course) for course in courses]
             for course in courses:
@@ -116,10 +117,10 @@ class CoursesList(ListView):
             return HttpResponse(status=400)
 
 
-class CourseView(ListView):
-    model = Task
+class CourseView(DetailView):
+    model = Course
     template_name = 'courses/course.html'
-    context_object_name = 'tasks'
+    context_object_name = 'courses'
     paginate_by = 10
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -127,27 +128,8 @@ class CourseView(ListView):
         context['teachers'] = User.objects.filter(Type=1)
         context['students'] = User.objects.filter(Type=2)
         context['statuses'] = StatusTask.objects.all()
-        context['pk'] = self.kwargs['pk']
-        context['course'] = self.model.objects.get(course=self.kwargs['pk']).course
+        context['tasks'] = Task.objects.filter(course=self.kwargs['pk'])
         return context
-
-    def get_queryset(self):
-        search_query = self.request.GET.get('search')
-        status_query = self.request.GET.get('status')
-        teacher_query = self.request.GET.get('teacher')
-        student_query = self.request.GET.get('student')
-        print(self.kwargs['pk'])
-        if search_query is not None:
-            queryset = Task.objects.filter(name__icontains=search_query)
-        elif status_query is not None:
-            queryset = Task.objects.filter(course=self.kwargs['pk'], status=int(status_query))
-        elif teacher_query is not None:
-            queryset = Task.objects.filter(course=self.kwargs['pk'], Teacher=teacher_query)
-        elif student_query is not None:
-            queryset = Task.objects.filter(course=self.kwargs['pk'], Student=student_query)
-        else:
-            queryset = Task.objects.filter(course=self.kwargs['pk'])
-        return queryset
 
 
 class CreateCourse(CreateView):
@@ -157,8 +139,8 @@ class CreateCourse(CreateView):
 
     def form_valid(self, form):
         instance = form.save()
-        teachers = form.cleaned_data['Teacher']
-        students = form.cleaned_data['Student']
+        teachers = form.cleaned_data['teachers']
+        students = form.cleaned_data['students']
         instance.teachers.add(*teachers)
         instance.students.add(*students)
         return super().form_valid(form)

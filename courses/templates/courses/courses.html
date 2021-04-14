@@ -15,11 +15,12 @@
                 </a>
             </div>
         </div>
+        <form id = "courseform" method="post">
+            {% csrf_token %}
         <div class="main_block_page">
             {% include 'inc/_table_head.html'%}
             <hr>
-            <form id = "courseform" method="post">
-            {% csrf_token %}
+
             <div class="d-flex flex-row main_block_header_tasks">
                 <div class="col-1">
                     <div class="form-check">
@@ -42,6 +43,7 @@
                         <input class="form-check-input" type="checkbox" name="course" value="{{course.pk}}">
                         <input type="hidden" name="course-li" value="{{course.pk}}">
                     </div>
+
                 </div>
                 <div class="col-3 d-flex justify-content-start content_size text-primary"><a href="{{course.get_absolute_url}}">{{course.name}}</a></div>
                 <div class="col"></div>
@@ -66,11 +68,11 @@
                         <span class="text-danger">{{course.status}}</span>
                     {% endif %}
                 </div>
-                <div class="col d-flex justify-content-end">
+                <div  class="col d-flex justify-content-end">
                     <ul class="navbar-nav dropdown">
                         <li class="nav-item" role="tab">
                             <i class="bi bi-three-dots-vertical dropdown-toggle text-secondary other" data-bs-toggle="dropdown" id="taskDropdown"></i>
-                            <ul class="dropdown-menu" aria-labelledby="taskDropdown">
+                            <ul id="ul_id" class="dropdown-menu" aria-labelledby="taskDropdown">
                                 <li class="dropdown-header">Прочее</li>
                                 <li class="dropdown-item" onclick="courseform.submit()">Удалить</li>
                             </ul>
