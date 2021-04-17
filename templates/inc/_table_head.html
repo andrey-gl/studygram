@@ -1,11 +1,12 @@
 <div class="container-fluid row">
     <div class="col-10 d-flex justify-content-start">
+        {% csrf_token %}
         <select id="options" class="form-select size_actions" aria-label="Default select example">
 
             <option selected>Действия</option>
             <option id="delete" value="1">Удалить</option>
         </select>
-        <button id="btnsubmit" type="submit" class="btn btn-success size_actions">
+        <button id="btn_submit" type="button" class="btn btn-success size_actions">
             Применить
         </button>
     </div>

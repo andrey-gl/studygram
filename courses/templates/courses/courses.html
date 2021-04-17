@@ -15,8 +15,6 @@
                 </a>
             </div>
         </div>
-        <form id = "courseform" method="post">
-            {% csrf_token %}
         <div class="main_block_page">
             {% include 'inc/_table_head.html'%}
             <hr>
@@ -40,7 +38,7 @@
             <div class="d-flex flex-row task align-center align-items-center">
                 <div class="col-1">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="course" value="{{course.pk}}">
+                        <input class="form-check-input courses" type="checkbox" value="{{course.pk}}">
                         <input type="hidden" name="course-li" value="{{course.pk}}">
                     </div>
 
@@ -74,7 +72,7 @@
                             <i class="bi bi-three-dots-vertical dropdown-toggle text-secondary other" data-bs-toggle="dropdown" id="taskDropdown"></i>
                             <ul id="ul_id" class="dropdown-menu" aria-labelledby="taskDropdown">
                                 <li class="dropdown-header">Прочее</li>
-                                <li class="dropdown-item" onclick="courseform.submit()">Удалить</li>
+                                <li class="dropdown-item delete-course-button" data-item-id="{{course.pk}}">Удалить</li>
                             </ul>
                         </li>
                     </ul>
@@ -83,6 +81,5 @@
             {% endfor %}
             {% include 'inc/_pagination.html' %}
         </div>
-        </form>
     </div>
 {% endblock %}

@@ -2,8 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Task, StatusTask, User, Course, StatusCourse
 from .forms import TaskCreateForm, CourseCreateForm
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
-from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect, HttpResponse
+from django.urls import reverse_lazy, reverse
+from django.http import HttpResponse
 from django.db.models import Q
 """Функции ниже относятся к странице "Задания" """
 
@@ -100,21 +100,20 @@ class CoursesList(ListView):
         return queryset
 
     def post(self, request, *args, **kwargs):
-        courses = self.request.POST.getlist('course')
-        single_course = self.request.POST.getlist('course-li')
-        print(self.request.POST.getlist)
-        if courses:
-            courses = [int(course) for course in courses]
-            for course in courses:
-                Course.objects.get(pk=course).delete()
-            return HttpResponseRedirect(reverse_lazy('courses'))
-        elif single_course:
-            single_course = [int(course) for course in single_course]
-            print(single_course)
-            Course.objects.get(pk=single_course[0]).delete()
-            return HttpResponseRedirect(reverse_lazy('courses'))
-        else:
-            return HttpResponse(status=400)
+        if self.request.is_ajax and self.request.method == "POST":
+            courses = self.request.POST.getlist('courses[]')
+            pk = self.request.POST.getlist('pk')
+            print(self.request.POST.getlist)
+            if courses:
+                courses = [int(course) for course in courses]
+                for course in courses:
+                    Course.objects.get(pk=course).delete()
+                return HttpResponse(status=200)
+            elif pk:
+                Course.objects.get(pk=int(pk[0])).delete()
+                return HttpResponse(status=200)
+            else:
+                return HttpResponse(status=400)
 
 
 class CourseView(DetailView):
