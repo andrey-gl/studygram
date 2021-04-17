@@ -29,68 +29,6 @@
   integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
   crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script>
-    $(document).ready(function() {
-    $('#teacher-select').select2();
-});
-</script>
-<script>
-    $(document).ready(function() {
-    $('#student-select').select2();
-});
-</script>
-<script>
-    $('#options').on('change', function(){
-        if($(this).find('option:selected').text()=="Удалить")
-            $("#btnsubmit").attr('disabled', false)
-        else
-            $("#btnsubmit").attr('disabled', true)
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        var csrf = $("input[name=csrfmiddlewaretoken]").val();
-        $("#btn_submit").click(function () {
-            var courses = [];
-            var inputElements = document.getElementsByClassName('courses');
-            for(var i=0; inputElements[i]; ++i){
-                if(inputElements[i].checked){
-                    courses.push(inputElements[i].value);
-                }
-            }
-            $.ajax({
-                url: "{% url 'courses' %}",
-                type: "POST",
-                data: {
-                    csrfmiddlewaretoken: csrf,
-                    courses: courses,
-                    success: function(){
-                        setTimeout(function(){
-                            window.location.reload();
-                        }, 500);
-                    }
-                }
-            });
-        });
-    });
-</script>
-<script>
- $('.delete-course-button').on('click', function(e) {
-    var pk = $(this).attr('data-item-id');
-    var csrf = $("input[name=csrfmiddlewaretoken]").val();
-    $.ajax({
-        url: {% url 'courses' %},
-        type: "POST",
-        data: {
-            csrfmiddlewaretoken: csrf,
-            pk: pk,
-            success: function(){
-                setTimeout(function(){ window.location.reload(); }, 500);
-            }
-        }
-
-    });
- });
-</script>
+<script src="{% static 'js/courses.js' %}"></script>
 </body>
 </html>
