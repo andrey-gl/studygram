@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Task, StatusTask, User, Course, StatusCourse
+from .models import Task, StatusTask, Course, StatusCourse
+from users.models import User
 from .forms import TaskCreateForm, CourseCreateForm
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from django.urls import reverse_lazy, reverse
