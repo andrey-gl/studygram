@@ -6,7 +6,8 @@
 
 {% block content %}
 <div class="flex-column main_block">
-        <div class="container main_block_header">
+    <div id="courses" class="block_in_main">
+        <div class="container-fluid main_block_header">
             <div class="main_block_title">Таблица курсов</div>
             <div>
                 <a class="btn btn-success" href="/create_course">
@@ -82,4 +83,5 @@
             {% include 'inc/_pagination.html' %}
         </div>
     </div>
+</div>
 {% endblock %}
