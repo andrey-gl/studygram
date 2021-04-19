@@ -77,12 +77,12 @@ $(function(){
 //----------LIVE-SEARCH----------//
 
 $(document).ready(function(){
-    var array_teacher = ['f','f7','3','4','57','67','f'];               //  получение массива учителей
-    var array_student = ['7','67','57','4','f','27','1'];               //  получение массива студентов
+    var array_teacher = [{'id' : '2', 'name' : 'Татьяна', 'surname' : 'Беликова'},{'id' : '3', 'name' : 'Иван', 'surname' : 'Иванов'},{'id' : '4', 'name' : 'Артем', 'surname' : 'Артемов'}];               //  получение массива учителей
+    var array_student = [{'id' : '1', 'name' : 'Геннадий', 'surname' : 'Геннадьев'},{'id' : '2', 'name' : 'Всеволод', 'surname' : 'Всеволодов'},{'id' : '3', 'name' : 'Петр', 'surname' : 'Петров'}];                  //  получение массива студентов
 
     for(var i = 0; i < 3; i++){
-        $('#fil_teach .filter').eq(i).text(array_teacher[i]);           //  заполнить списки первыми элементами массива
-        $('#fil_stud .filter').eq(i).text(array_student[i]);
+        $('#fil_teach .filter').eq(i).text(array_teacher[i]['name'] + ' ' + array_teacher[i]['surname']);           //  заполнить списки первыми элементами массива
+        $('#fil_stud .filter').eq(i).text(array_student[i]['name'] + ' ' + array_student[i]['surname']);
     }
 
     $('.menu_left input').on('input', function(){                       //  найти input в классе .menu_left (боковое меню) в котором происходит ввод
@@ -96,7 +96,7 @@ $(document).ready(function(){
         $(this).parent().find('.no_results').css('display','none');     //  найти элементы с классом .no_results в родителе инпута и сделать невидемыми
         var text_input =  $(this).val();                                //  получить вводимое значение
         var rez = [];                                                   //  массив с результатом поиска
-        for(var i = 0; i < main_arr.length; i++){                       //  в каждом слове основного массива
+        for(var i = 0; i < main_arr.length; i++){                       //  в каждом подмассиве основного массива
             if(main_arr[i].indexOf(text_input) !== -1){                 //  найти вводимое значение
                 rez.push(main_arr[i]);                                  //  и записать в массив rez
             }
@@ -107,13 +107,13 @@ $(document).ready(function(){
                 $(this).parent().find('.no_results').css('display','block');                //  показать блок с классом .no_results
             }else{
                 for(var i = 0; i < rez.length; i++){                                        //  если длина не 0, но < 3
-                    $(this).parent().find('.filter').eq(i).text(rez[i]);                    //  то i-му элементу класса .filter дать значение i-го эелемента массива rez
+                    $(this).parent().find('.filter').eq(i).text(rez[i]['name'] + ' ' + rez[i]['surname']);                    //  то i-му элементу класса .filter дать значение i-го эелемента массива rez
                 }
                 $(this).parent().find('.filter').slice(rez.length).css('display','none');   //  а все остальные блоки, большbt длинны массива rez, класса .filter скрыть
             }   
         }else{                                                                              //  иначе, если длина = 3
             for(var i = 0; i < 3; i++){                                                    
-                $(this).parent().find('.filter').eq(i).text(rez[i]);                        //  i-му элементу класса .filter дать значение i-го эелемента массива rez
+                $(this).parent().find('.filter').eq(i).text(rez[i]['name'] + ' ' + rez[i]['surname']);                      //  i-му элементу класса .filter дать значение i-го эелемента массива rez
             }
         }
     });
