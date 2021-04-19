@@ -1,33 +1,53 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light position-fixed fixed-right fixed-top menu">
-        <div class="container flex-column">
-            <form class="navbar-nav flex-column">
-                <div class="nav-item dropdown form-group filters">
-                    <select class="form-select"  placeholder="СТУДЕНТЫ" id="teacher-select" onchange="location = this.value">
-                     <option selected disabled>ПО ПРЕПОДАВАТЕЛЮ</option>
-                        {% for teacher in teachers %}
-                            <option value="{% url 'courses' %}?teacher={{ teacher.id }}"> {{teacher}} </option>
-                        {% endfor %}
-                    </select>
+    <div class="container flex-column position-fixed fixed-right menu_left">
+        <form class="form-inline">
+            <div class="filters" id="fil_teach">
+                <div class="input-group">
+                    <input type="search" id="filter_teacher" disabled class="form-control block_filters" placeholder="ПРЕПОДАВАТЕЛИ">
+                    <div class="input-group-append">
+                        <span id="filter_teacher_del" class="input-group-text block_filters" role="button">
+                            <i class="bi bi-x"></i>
+                        </span>
+                    </div>
                 </div>
-                <div class="nav-item dropdown form-group filters">
-                    <select class="form-select"  placeholder="СТУДЕНТЫ" id="student-select" onchange="location = this.value">
-                        <option selected disabled>ПО СТУДЕНТУ</option>
-                        {% for student in students %}
-                            <option value="{% url 'courses' %}?student={{ student.id }}"> {{student}} </option>
-                        {% endfor %}
-                    </select>
+                <input id="search_techer" class="form-control block_filters" placeholder="Поиск..." type="text" autocomplete="off">
+                <ul class="navbar-nav">
+                    <li class="nav-item filter"></li>
+                    <li class="nav-item filter"></li>
+                    <li class="nav-item filter"></li>
+                    <li class="nav-item no_results btn disabled">Результатов не найдено</li>
+                </ul>
+            </div>
+            <div class="filters"  id="fil_stud">
+                <div class="input-group">
+                    <input type="text" id="filter_student" disabled class="form-control block_filters" placeholder="СТУДЕНТЫ">
+                    <div class="input-group-append">
+                        <span id="filter_student_del" class="input-group-text block_filters" role="button">
+                            <i class="bi bi-x"></i>
+                        </span>
+                    </div>
                 </div>
-                <div class="navbar-nav dropdown form-group filters">
-                    <form class="form-inline">
-                        <select class="js-data-example-ajax form-select" aria-label="Default select example" placeholder="СТУДЕНТЫ" onchange="location = this.value">
-                            <option selected disabled>ПО СТАТУСУ</option>
-                            {% for status in statuses %}
-                                <option value="{% url 'courses' %}?status={{ status.pk }}"> {{status.name}} </option>
-                            {% endfor %}>
-                        </select>
-                    </form>
-
+                <input type="text" class="form-control block_filters" placeholder="Поиск...">
+                <ul class="navbar-nav">
+                    <li class="nav-item filter"></li>
+                    <li class="nav-item filter"></li>
+                    <li class="nav-item filter"></li>
+                    <li class="nav-item no_results btn disabled">Результатов не найдено</li>
+                </ul>
+            </div>
+            <div class="filters" id="fil_stas_cour">
+                <div class="input-group">
+                    <input type="text" id="filter_status_course" disabled class="form-control block_filters" placeholder="ПО СТУТУСАМ">
+                    <div class="input-group-append">
+                        <span  id="filter_status_del" class="input-group-text block_filters" role="button">
+                            <i class="bi bi-x"></i>
+                        </span>
+                    </div>
                 </div>
-            </form>
-        </div>
-    </nav>
+                <ul class="navbar-nav">
+                    {% for status in statuses %}
+                    <li class="nav-item filter">{{status}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </form>
+    </div>
