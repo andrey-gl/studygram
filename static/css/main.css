@@ -3,10 +3,23 @@
 
 body{
     background: #E5E5E5;
+    cursor: default;
 }
+
 
 /*----------BOOTSTRAP----------*/
 
+a.active.focus, a.active:focus, a.focus, a:active.focus, a:active:focus, a:focus,
+button.active.focus, button.active:focus, button.focus, button:active.focus, button:active:focus, button:focus,
+input.active.focus, input.active:focus, input.focus, input:active.focus, input:active:focus, input:focus,
+select.active.focus, select.active:focus, select.focus, select:active.focus, select:active:focus, select:focus,
+.btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {
+outline: 0!important;
+outline-color: transparent!important;
+outline-width: 0!important;
+outline-style: none!important;
+box-shadow: 0 0 0 0 rgba(0,123,255,0)!important;
+}
 .btn-success {
     color: #fff;
     background-color: #3EBA72;
@@ -19,12 +32,10 @@ body{
     background: #0b5ed7;
     color: #FFFFFF;
 }
-.navbar-light .navbar-brand {
-    font-weight: 600;
-    color: #0b5ed7;
-    text-decoration: none;
-}
+.navbar-light .navbar-brand, 
+.navbar-light .navbar-brand:focus, 
 .navbar-light .navbar-brand:hover {
+    font-weight: 600;
     color: #0b5ed7;
     text-decoration: none;
 }
@@ -32,10 +43,17 @@ body{
     color: #FFFFFF;
 }
 .nav-link:hover {
-    background: #E7EDF8;
+    background: rgba(17, 71, 190, 0.1);  
 }
 .nav-pills .nav-link .active{
     background: #0b5ed7;
+}
+.tooltip-inner {
+    background-color: #0b5ed7;
+    max-width: 20rem;
+}
+.bs-tooltip-auto[data-popper-placement^=bottom] .tooltip-arrow::before, .bs-tooltip-bottom .tooltip-arrow::before {
+    border-bottom-color: #0b5ed7;
 }
 
 /*----------HEADER----------*/
@@ -59,8 +77,9 @@ body{
     border-radius: 100%;
 }
 
+
 /*----------FILTERS----------*/
-.menu{
+.menu_left{
     z-index: 1;
     align-items: flex-start;
     background: #FFFFFF;
@@ -68,17 +87,35 @@ body{
     border-radius: .25rem;
     width: 18.75rem;
     height: 100%;
-    left: 3.5rem;
-    padding-top: 4rem;
+    left: 2.5rem;
+    padding-top: 5rem;
 }
 .filters{
-    margin-top: 4rem;
-    width: 16rem;
+    margin-top: 1rem;
+    border: 1px solid #CED4DA;
+    border-radius: .25rem;
+    width: 100%;
+    height: auto;
+}
+.block_filters, .block_filters:focus, .block_filters:after{
+    border: none;
+    border-radius: 0;
+}
+.filter{
+    padding: .2rem;
+    padding-left: 1rem;
+}
+.filter:hover{
+    background: #0b5ed7;
+    border: none;
+    color: #FFFFFF;
+}
+.no_result{
+    padding: .2rem;
+    color: #A2A2A2;
+    display: none;
 }
 
-.li_status{
-    width: 16rem;
-}
 
 
 /*----------MAIN-BLOCK----------*/
@@ -86,9 +123,14 @@ body{
     display: flex;
     height: auto;
     margin-right: 2rem;
-    padding-top: 7rem;
+    padding-top: 5rem;
     padding-left: 23rem;
     margin-bottom: 3rem;
+}
+.block_in_main{
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
 }
 .main_block_header{
     display: flex;
@@ -112,24 +154,21 @@ body{
     width: 8.75rem;
     margin-right: 1rem;
 }
-.seach{
-    width: 8.75rem;
-}
-.main_block_header_tasks{
+
+
+/*----------ELEMENTS----------*/
+
+.main_block_header_elem{
     width: 100%;
     padding: 0 1.6rem 0 1.6rem;
     color: #A2A2A2;
 }
-
-/*----------TASKS----------*/
-
-.task{
+.elem{
     padding: 1rem 1.6rem 1rem 1.6rem;
     border-bottom: .06rem solid #EBEBEB;
 }
-.task:hover{
-    background: rgba(17, 71, 190, 0.1);
-    
+.elem:hover, .elem_check{
+    background: rgba(17, 71, 190, 0.1);  
 }
 .other::after{
     display: none;
@@ -139,7 +178,14 @@ body{
     overflow: hidden; /* Обрезаем все, что не помещается в область */
     text-overflow: ellipsis; /* Добавляем многоточие */
 }
-
-.tasks_page{
-    margin: 2rem 3rem 0 0;
+.elem_page{margin: 2rem 3rem 0 0;
 }
+.status_active{color: #3EBA72;
+}
+.status_delete{
+    color: #ff6363;
+}
+.status_check{
+    color: #f0b848;
+}
+

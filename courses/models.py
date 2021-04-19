@@ -1,21 +1,7 @@
 from django.db import models
 from django.urls import reverse
-from django.contrib.auth.models import AbstractUser
+from users.models import *
 import datetime
-
-
-class UserType(models.Model):
-    name = models.CharField(max_length=150)
-
-    def __str__(self):
-        return self.name
-
-
-class UserStatus(models.Model):
-    name = models.CharField(max_length=150)
-
-    def __str__(self):
-        return self.name
 
 
 class StatusCourse(models.Model):
@@ -24,6 +10,11 @@ class StatusCourse(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Статус курса'
+        verbose_name_plural = 'Статусы курсов'
+        ordering = ['id']
+
 
 class StatusTask(models.Model):
     name = models.CharField(max_length=150)
@@ -31,23 +22,10 @@ class StatusTask(models.Model):
     def __str__(self):
         return self.name
 
-
-class Group(models.Model):
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
-
-
-class User(AbstractUser):
-    Otchestvo = models.CharField(max_length=150, blank=True, verbose_name='Отчество')
-    Group = models.ManyToManyField(Group, verbose_name='Группа', blank=True)
-    Photo = models.ImageField(verbose_name='Фото', blank=True)
-    Type = models.ForeignKey(UserType, on_delete=models.CASCADE, related_name='type', default=1)
-    Status = models.ForeignKey(UserStatus, on_delete=models.CASCADE, related_name='status', default=2)
-
-    def __str__(self):
-        return self.first_name + ' ' + self.last_name
+    class Meta:
+        verbose_name = 'Статус задания'
+        verbose_name_plural = 'Статусы заданий'
+        ordering = ['id']
 
 
 class Course(models.Model):
@@ -61,6 +39,11 @@ class Course(models.Model):
 
     def get_absolute_url(self):
         return reverse('course', kwargs={'pk': self.pk})
+
+    class Meta:
+        verbose_name = 'Курс'
+        verbose_name_plural = 'Курсы'
+        ordering = ['id']
 
 
 class Task(models.Model):
@@ -78,3 +61,8 @@ class Task(models.Model):
 
     def get_absolute_url(self):
         return reverse('task', kwargs={'pk': self.pk})
+
+    class Meta:
+        verbose_name = 'Задание'
+        verbose_name_plural = 'Задания'
+        ordering = ['id']

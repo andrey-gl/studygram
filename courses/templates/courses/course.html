@@ -7,9 +7,10 @@
 
 {% block content %}
 <div class="flex-column main_block">
+    <div id="courses" class="block_in_main">
         <form id = "courseform" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить данные курсы?')">
             {% csrf_token %}
-        <div class="container main_block_header">
+        <div class="container-fluid main_block_header">
             <div class="main_block_title">{{courses.name}}: задачи</div>
             <div>
                 <a class="btn btn-success" href="/create_task">
@@ -88,5 +89,6 @@
 
         </div>
         </form>
+    </div>
     </div>
 {% endblock %}
