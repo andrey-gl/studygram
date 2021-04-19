@@ -37,8 +37,8 @@
     var students_mas = {{students | safe}};              //  получение массива студентов
 
     for(var i = 0; i < 3; i++){
-        $('#fil_teach .filter').eq(i).text(teachers_mas[i]);           //  заполнить списки первыми элементами массива
-        $('#fil_stud .filter').eq(i).text(students_mas[i]);
+        $('#fil_teach .filter').eq(i).text(teachers_mas[i]['name']+' '+teachers_mas[i]['surname']);           //  заполнить списки первыми элементами массива
+        $('#fil_stud .filter').eq(i).text(students_mas[i]['name']+' '+students_mas[i]['surname']);
     }
 
     $('.menu_left input').on('input', function(){                       //  найти input в классе .menu_left (боковое меню) в котором происходит ввод
