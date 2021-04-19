@@ -6,6 +6,8 @@ from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponse
 from django.db.models import Q
+from django.core.serializers import serialize
+from .utils import get_user_list
 """Функции ниже относятся к странице "Задания" """
 
 
@@ -75,8 +77,8 @@ class CoursesList(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['teachers'] = User.objects.filter(Type=1)
-        context['students'] = User.objects.filter(Type=2)
+        context['teachers'] = get_user_list(User.objects.filter(Type=1))
+        context['students'] = get_user_list(User.objects.filter(Type=2))
         context['statuses'] = StatusCourse.objects.all()
         return context
 
