@@ -1,9 +1,7 @@
-
-
 //----------TOOLTIP----------//
 
 $(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();   
+    $('[data-toggle="tooltip"]').tooltip();   //   инициализация подсказок
 });
 
 
@@ -12,7 +10,7 @@ $(document).ready(function(){
 //      Выделение отмеченного таска
 $(function(){
     $('#courses input:checkbox').on('click', function () {          //  находим все checkbox'ы в body
-        if ($(this).is(':checked')) {                               //  если checkbox отмечен
+        if ($(this).is(':checked')){                               //  если checkbox отмечен
             $(this).parents('.elem').addClass("elem_check");        //  то его родителю добавляем класс background'a
         } else {                                                    //  иначе если checkbox не отмечен
             $(this).parents('.elem').removeClass("elem_check");     //  то у его родителя удаляем класс background'a 
@@ -65,33 +63,59 @@ $(function(){
 //      Выбор фильтра
 
 $(function(){
-    $('.fil_teach li').click(function(){                                //  из кликнутых li в классе fil_teach
-        var t = $(this).text();                                         //  в переменную t закинуть текст клукнутого li
-        $('#filter_teacher').val(t);                                    //  присвоить value filter_teacher переменную t
+    $('#fil_teach li').click(function(){                                             //  из кликнутых li в классе fil_teach
+        $('#filter_teacher').val($(this).text());                                    //  присвоить value filter_teacher переменную t
     });
-    $('.fil_stud li').click(function(){                                 //  из кликнутых li в классе fil_stud
-        var t = $(this).text();                                         //  в переменную t закинуть текст клукнутого li
-        $('#filter_student').val(t);                                    //  присвоить value filter_teacher переменную t 
+    $('#fil_stud li').click(function(){                                              //  из кликнутых li в классе fil_stud
+        $('#filter_student').val($(this).text());                                    //  присвоить value filter_teacher переменную t 
     });
-    $('.fil_stas_cour li').click(function(){                            //  из кликнутых li в классе fil_stas_cour
-        var t = $(this).text();                                         //  в переменную t закинуть текст клукнутого li
-        $('#filter_status_course').val(t);                                    //  присвоить value filter_teacher переменную t 
+    $('#fil_stas_cour li').click(function(){                                         //  из кликнутых li в классе fil_stas_cour
+        $('#filter_status_course').val($(this).text());                              //  присвоить value filter_teacher переменную t 
     });
 });
 
-//      
+//----------LIVE-SEARCH----------//
 
-$(function(){
-    $('.fil_teach li').each(function(){
-        if($.trim($(this).text()) == ''){
-          $(this).css('display','none');
-          $('#search_teacher').css('display','block');
+$(document).ready(function(){
+    var array_teacher = ['f','f7','3','4','57','67','f'];               //  получение массива учителей
+    var array_student = ['7','67','57','4','f','27','1'];               //  получение массива студентов
+
+    for(var i = 0; i < 3; i++){
+        $('#fil_teach .filter').eq(i).text(array_teacher[i]);           //  заполнить списки первыми элементами массива
+        $('#fil_stud .filter').eq(i).text(array_student[i]);
+    }
+
+    $('.menu_left input').on('input', function(){                       //  найти input в классе .menu_left (боковое меню) в котором происходит ввод
+        var main_arr = [];                                              //  главный массив
+        if($(this).parent().prop('id') == 'fil_teach'){                 //  если id родителя, кликнутого input, fil_teach (фильтр по учителю)
+            main_arr = array_teacher;                                   //  то основной массив - массив учителей
+        }else{
+            main_arr = array_student;                                   // иначе массив студентов основной
         }
-    });
-    $('.fil_stud li').each(function(){
-        if($.trim($(this).text()) == ''){
-          $(this).css('display','none');
-          $('#search_student').css('display','block');
+        $(this).parent().find('.filter').css('display','block');        //  найти элементы с классом .filter в родителе инпута и сделать видемыми
+        $(this).parent().find('.no_results').css('display','none');     //  найти элементы с классом .no_results в родителе инпута и сделать невидемыми
+        var text_input =  $(this).val();                                //  получить вводимое значение
+        var rez = [];                                                   //  массив с результатом поиска
+        for(var i = 0; i < main_arr.length; i++){                       //  в каждом слове основного массива
+            if(main_arr[i].indexOf(text_input) !== -1){                 //  найти вводимое значение
+                rez.push(main_arr[i]);                                  //  и записать в массив rez
+            }
+        }
+        if(rez.length < 3){                                                                 //  если длина массива с найденными элементами меньше 3
+            if(rez.length == 0){                                                            //  если длина массива с нацденными элементами = 0
+                $(this).parent().find('.filter').css('display','none');                     //  то скрыть все блоки с классом .filter
+                $(this).parent().find('.no_results').css('display','block');                //  показать блок с классом .no_results
+            }else{
+                for(var i = 0; i < rez.length; i++){                                        //  если длина не 0, но < 3
+                    $(this).parent().find('.filter').eq(i).text(rez[i]);                    //  то i-му элементу класса .filter дать значение i-го эелемента массива rez
+                }
+                $(this).parent().find('.filter').slice(rez.length).css('display','none');   //  а все остальные блоки, большbt длинны массива rez, класса .filter скрыть
+            }   
+        }else{                                                                              //  иначе, если длина = 3
+            for(var i = 0; i < 3; i++){                                                    
+                $(this).parent().find('.filter').eq(i).text(rez[i]);                        //  i-му элементу класса .filter дать значение i-го эелемента массива rez
+            }
         }
     });
 });
+     
