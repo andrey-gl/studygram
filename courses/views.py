@@ -54,7 +54,7 @@ class TaskView(DetailView):
 class CreateTask(CreateView):
     form_class = TaskCreateForm
     template_name = 'courses/create_task.html'
-    success_url = reverse_lazy('tasks')
+    success_url = reverse_lazy('courses')
 
     def form_valid(self, form):
         instance = form.save()
