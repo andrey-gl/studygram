@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.db.models import Q
 from django.core.serializers import serialize
 from .utils import get_user_list
+
 """Функции ниже относятся к странице "Задания" """
 
 
@@ -126,12 +127,37 @@ class CourseView(DetailView):
     paginate_by = 10
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        search_query = self.request.GET.get('search')
         context = super().get_context_data(**kwargs)
-        context['teachers'] = User.objects.filter(Type=1)
-        context['students'] = User.objects.filter(Type=2)
+        context['teachers'] = get_user_list(User.objects.filter(Type=1))
+        context['students'] = get_user_list(User.objects.filter(Type=2))
         context['statuses'] = StatusTask.objects.all()
-        context['tasks'] = Task.objects.filter(course=self.kwargs['pk'])
+        if search_query is not None:
+            context['tasks'] = Task.objects.filter(Q(name__icontains=search_query) |
+                                                   Q(Start_date__icontains=search_query) |
+                                                   Q(Deadline__icontains=search_query) |
+                                                   Q(Teacher__first_name__icontains=search_query) |
+                                                   Q(Student__first_name__icontains=search_query) |
+                                                   Q(status__name__icontains=search_query)).distinct()
+        else:
+            context['tasks'] = Task.objects.filter(course=self.kwargs['pk'])
         return context
+
+    def post(self, request, *args, **kwargs):
+        if self.request.is_ajax and self.request.method == "POST":
+            courses = self.request.POST.getlist('courses[]')
+            pk = self.request.POST.getlist('pk')
+            print(self.request.POST.getlist)
+            if courses:
+                courses = [int(course) for course in courses]
+                for course in courses:
+                    Task.objects.get(pk=course).delete()
+                return HttpResponse(status=200)
+            elif pk:
+                Task.objects.get(pk=int(pk[0])).delete()
+                return HttpResponse(status=200)
+            else:
+                return HttpResponse(status=400)
 
 
 class CreateCourse(CreateView):

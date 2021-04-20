@@ -45,7 +45,7 @@
                 </div>
                 <ul class="navbar-nav">
                     {% for status in statuses %}
-                    <li class="nav-item filter">{{status}}</li>
+                    <li class="nav-item filter"><a href="{% url 'courses' %}?status={{status.pk}}">{{status}}</a></li>
                     {% endfor %}
                 </ul>
             </div>
