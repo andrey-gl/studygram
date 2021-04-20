@@ -67,13 +67,13 @@
                 $(this).parent().find('.no_results').css('display','block');                //  показать блок с классом .no_results
             }else{
                 for(var i = 0; i < rez.length; i++){                                        //  если длина не 0, но < 3
-                    $(this).parent().find('a').eq(i).text(rez[i]['name']+' '+rez[i]['surname']).attr('href',window.location.href+'?teacher='+rez[i]['id']);                    //  то i-му элементу класса .filter дать значение i-го эелемента массива rez
+                    $(this).parent().find('a').eq(i).text(rez[i]['name']+' '+rez[i]['surname']).attr('href','{% url 'courses' %}?teacher='+rez[i]['id']);                    //  то i-му элементу класса .filter дать значение i-го эелемента массива rez
                 }
                 $(this).parent().find('.filter').slice(rez.length).css('display','none');   //  а все остальные блоки, большbt длинны массива rez, класса .filter скрыть
             }
         }else{                                                                              //  иначе, если длина = 3
             for(var i = 0; i < 3; i++){
-                $(this).parent().find('a').eq(i).text(rez[i]['name']+' '+rez[i]['surname']).attr('href', window.location.href+'?student='+rez[i]['id']);                        //  i-му элементу класса .filter дать значение i-го эелемента массива rez
+                $(this).parent().find('a').eq(i).text(rez[i]['name']+' '+rez[i]['surname']).attr('href', '{% url 'courses' %}?student='+rez[i]['id']);                        //  i-му элементу класса .filter дать значение i-го эелемента массива rez
             }
         }
     });
