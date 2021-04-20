@@ -18,6 +18,8 @@ outline-color: transparent!important;
 outline-width: 0!important;
 outline-style: none!important;
 box-shadow: 0 0 0 0 rgba(0,123,255,0)!important;
+text-decoration: none;
+
 }
 .btn-success {
     color: #fff;
@@ -103,8 +105,15 @@ box-shadow: 0 0 0 0 rgba(0,123,255,0)!important;
 .filter{
     padding: .2rem;
     padding-left: 1rem;
+    
 }
-.filter:hover{
+.filter > a{
+    text-decoration: none;
+    list-style-type: none;
+    cursor: pointer;
+    display: block;
+    color: #000000;}
+.filter:hover, .filter > a:hover{
     background: #0b5ed7;
     border: none;
     color: #FFFFFF;
