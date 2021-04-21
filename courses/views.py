@@ -17,6 +17,7 @@ class TasksList(ListView):
     context_object_name = 'tasks'
     paginate_by = 10
 
+    # передаём в контекст данные для фильтров
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['teachers'] = User.objects.filter(Type=1)
@@ -24,6 +25,7 @@ class TasksList(ListView):
         context['statuses'] = StatusTask.objects.all()
         return context
 
+    # переписываем get_queryset для реализации работы фильтров и поиска
     def get_queryset(self):
         status_query = self.request.GET.get('status')
         teacher_query = self.request.GET.get('teacher')
@@ -75,6 +77,7 @@ class CoursesList(ListView):
     success_url = reverse_lazy('courses')
     paginate_by = 10
 
+    # передаём в контекст данные для фильтров
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['teachers'] = get_user_list(User.objects.filter(Type=1))
@@ -82,6 +85,7 @@ class CoursesList(ListView):
         context['statuses'] = StatusCourse.objects.all()
         return context
 
+    # переписываем get_queryset для реализации работы фильтров и поиска
     def get_queryset(self):
         search_query = self.request.GET.get('search')
         status_query = self.request.GET.get('status')
@@ -127,6 +131,7 @@ class CourseView(DetailView):
     context_object_name = 'courses'
     paginate_by = 10
 
+    # переписываем get_queryset для реализации работы фильтров и поиска
     def get_context_data(self, *, object_list=None, **kwargs):
         search_query = self.request.GET.get('search')
         context = super().get_context_data(**kwargs)
