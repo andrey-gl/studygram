@@ -9,10 +9,9 @@ from django.db.models import Q
 from django.core.serializers import serialize
 from .utils import get_user_list
 
-"""Функции ниже относятся к странице "Задания" """
-
 
 class TasksList(ListView):
+    """Отображение всех задач"""
     model = Task
     template_name = 'courses/tasks.html'
     context_object_name = 'tasks'
@@ -41,6 +40,7 @@ class TasksList(ListView):
 
 
 class TaskView(DetailView):
+    """Отображение информации по отдельному заданию"""
     model = Task
     template_name = 'courses/task.html'
     context_object_name = 'task'
@@ -52,6 +52,7 @@ class TaskView(DetailView):
 
 
 class CreateTask(CreateView):
+    """Создание задание"""
     form_class = TaskCreateForm
     template_name = 'courses/create_task.html'
     success_url = reverse_lazy('courses')
@@ -66,10 +67,8 @@ class CreateTask(CreateView):
         return super().form_valid(form)
 
 
-"""Функции ниже относятся к странице "Курсы" """
-
-
 class CoursesList(ListView):
+    """Отображение всех курсов"""
     model = Course
     template_name = 'courses/courses.html'
     context_object_name = 'courses'
@@ -103,6 +102,7 @@ class CoursesList(ListView):
             queryset = Course.objects.all()
         return queryset
 
+    # переписываем метод пост для удаления через ajax
     def post(self, request, *args, **kwargs):
         if self.request.is_ajax and self.request.method == "POST":
             courses = self.request.POST.getlist('courses[]')
@@ -121,6 +121,7 @@ class CoursesList(ListView):
 
 
 class CourseView(DetailView):
+    """Отображение задач по курсу"""
     model = Course
     template_name = 'courses/course.html'
     context_object_name = 'courses'
@@ -143,6 +144,7 @@ class CourseView(DetailView):
             context['tasks'] = Task.objects.filter(course=self.kwargs['pk'])
         return context
 
+    # переписываем метод пост для удаления через ajax
     def post(self, request, *args, **kwargs):
         if self.request.is_ajax and self.request.method == "POST":
             courses = self.request.POST.getlist('courses[]')
@@ -161,6 +163,7 @@ class CourseView(DetailView):
 
 
 class CreateCourse(CreateView):
+    """Создание курса"""
     form_class = CourseCreateForm
     success_url = reverse_lazy('courses')
     template_name = 'courses/create_course.html'
