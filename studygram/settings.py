@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import os
 from pathlib import Path
-
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +27,7 @@ SECRET_KEY = '8i1qplxjk)hb#$s9t8d97^wl9c@i*^osqw#10w&%vzc18g^mxx'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0055bb3de394.ngrok.io', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'courses',
     'users',
     'crispy_forms',
+    'social_django'
 ]
 
 MIDDLEWARE = [
@@ -121,8 +122,8 @@ USE_L10N = True
 
 USE_TZ = True
 
-DATE_INPUT_FORMATS = ['%d.%m.']
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 STATIC_URL = '/static/'
@@ -130,3 +131,10 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'frontend')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 INTERNAL_IPS = ['127.0.0.1']
+
+SOCIAL_AUTH_TELEGRAM_BOT_TOKEN = '1613082510:AAGshKSEJ0WcqbgdjpfBidHiSLXlJwxbTNk'
+LOGIN_REDIRECT_URL = reverse_lazy('profile')
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.telegram.TelegramAuth',
+    'django.contrib.auth.backends.ModelBackend',
+)

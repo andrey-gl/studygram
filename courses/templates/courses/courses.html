@@ -23,7 +23,7 @@
             <div class="d-flex flex-row main_block_header_elem">
                 <div class="col-1">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox"  name="course" value="">
+                        <input class="form-check-input" id="checkbox_0" type="checkbox"  name="course" value="">
                     </div>
                 </div>
                 <div class="col-3 d-flex justify-content-start">Название курса</div>
@@ -36,34 +36,31 @@
                 <div class="col"></div>
             </div>
              {% for course in courses %}
-            <div class="d-flex flex-row task align-center align-items-center elem">
+            <div class="d-flex flex-row align-center align-items-center elem">
                 <div class="col-1">
                     <div class="form-check">
                         <input class="form-check-input check" type="checkbox" value="{{course.pk}}">
-                        <input type="hidden" name="course-li" value="{{course.pk}}">
                     </div>
 
                 </div>
-                <div class="col-3 d-flex justify-content-start content_size text-primary"><a href="{{course.get_absolute_url}}">{{course.name}}</a></div>
+                <div class="col-3 d-flex content_size text-primary"><a href="{{course.get_absolute_url}}">{{course.name}}</a></div>
                 <div class="col"></div>
-                <div class="col-2 d-flex justify-content-start content_size">
+                <div class="col-2 d-flex content_size">
                     {% for teacher in course.teachers.all %}
                         {{teacher.first_name}} {{teacher.last_name}}
                     {% endfor %}
                 </div>
                 <div class="col"></div>
-                <div class="col-3 d-flex justify-content-start content_size">
+                <div class="col-3 d-flex content_size">
                     {% for student in course.students.all %}
                         {{student.first_name}} {{student.last_name}},
                     {% endfor %}
                 </div>
                 <div class="col"></div>
-                <div class="col-2 d-flex justify-content-start">
+                <div class="col-2 ">
                     {% if course.status.name == 'Активный' %}
-                        <i class="bi bi-dot text-success"></i>
                         <span class="text-success">{{course.status}}</span>
                     {% else %}
-                        <i class="bi bi-dot text-danger"></i>
                         <span class="text-danger">{{course.status}}</span>
                     {% endif %}
                 </div>
