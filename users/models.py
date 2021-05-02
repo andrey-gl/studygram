@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from .managers import UserManager
 
 
 class UserType(models.Model):
@@ -34,6 +35,7 @@ class Group(models.Model):
 
 
 class User(AbstractUser):
+    email = models.EmailField(unique=True, verbose_name='E-mail')
     Otchestvo = models.CharField(max_length=150, blank=True, verbose_name='Отчество')
     Group = models.ManyToManyField(Group, verbose_name='Группа', blank=True)
     Photo = models.ImageField(verbose_name='Фото', blank=True)
@@ -47,3 +49,8 @@ class User(AbstractUser):
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
         ordering = ['id']
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    objects = UserManager()

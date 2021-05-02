@@ -6,11 +6,11 @@ from .models import User
 class UserAuthForm(AuthenticationForm):
     class Meta:
         model = User
-        fields = ('username', 'password')
+        fields = ('email', 'password')
 
 
 class UserRegisterForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ('username', 'password')
+        fields = ('email',)
 

@@ -90,6 +90,12 @@ DATABASES = {
 
 AUTH_USER_MODEL = 'users.User'
 
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.telegram.TelegramAuth',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -134,7 +140,3 @@ INTERNAL_IPS = ['127.0.0.1']
 
 SOCIAL_AUTH_TELEGRAM_BOT_TOKEN = '1613082510:AAGshKSEJ0WcqbgdjpfBidHiSLXlJwxbTNk'
 LOGIN_REDIRECT_URL = reverse_lazy('profile')
-AUTHENTICATION_BACKENDS = (
-    'social_core.backends.telegram.TelegramAuth',
-    'django.contrib.auth.backends.ModelBackend',
-)
