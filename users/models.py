@@ -35,8 +35,9 @@ class Group(models.Model):
 
 
 class User(AbstractUser):
+    username = None
     email = models.EmailField(unique=True, verbose_name='E-mail')
-    Otchestvo = models.CharField(max_length=150, blank=True, verbose_name='Отчество')
+    patronymic = models.CharField(max_length=150, blank=True, verbose_name='Отчество')
     Group = models.ManyToManyField(Group, verbose_name='Группа', blank=True)
     Photo = models.ImageField(verbose_name='Фото', blank=True)
     Type = models.ForeignKey(UserType, on_delete=models.CASCADE, related_name='type', default=2)
@@ -53,4 +54,4 @@ class User(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
-    objects = UserManager()
+    objects = UserManager

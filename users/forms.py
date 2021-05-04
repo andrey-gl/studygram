@@ -1,4 +1,3 @@
-from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .models import User
 
@@ -9,8 +8,7 @@ class UserAuthForm(AuthenticationForm):
         fields = ('email', 'password')
 
 
-class UserRegisterForm(UserCreationForm):
+class UserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('email',)
-

@@ -1,3 +1,6 @@
 /venv/
 /.idea/
 /static/
+
+#Файл DB
+db.sqlite3

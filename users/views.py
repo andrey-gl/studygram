@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import UserAuthForm, UserRegisterForm
+from .forms import UserAuthForm, UserCreationForm
 from django.contrib.auth import login
 from django.shortcuts import redirect
 from django.contrib.auth.forms import UserCreationForm
@@ -24,11 +24,11 @@ def auth_user(request):
 
 def register(request):
     if request.method == 'POST':
-        form = UserRegisterForm(data=request.POST)
+        form = UserCreationForm(data=request.POST)
         if form.is_valid():
             user = form.save()
             user.set_password(form.clean_password2())
             user.save()
     else:
-        form = UserRegisterForm()
+        form = UserCreationForm()
     return render(request, 'registration.html', {"form": form})
