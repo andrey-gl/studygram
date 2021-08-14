@@ -11,12 +11,13 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv, find_dotenv
 from pathlib import Path
 from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+load_dotenv(find_dotenv())
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -27,7 +28,7 @@ SECRET_KEY = '8i1qplxjk)hb#$s9t8d97^wl9c@i*^osqw#10w&%vzc18g^mxx'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0055bb3de394.ngrok.io', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['a4785b96c9b6.ngrok.io', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -43,7 +44,8 @@ INSTALLED_APPS = [
     'courses',
     'users',
     'crispy_forms',
-    'social_django'
+    'social_django',
+    'telegram_bot'
 ]
 
 MIDDLEWARE = [
@@ -140,3 +142,6 @@ INTERNAL_IPS = ['127.0.0.1']
 
 SOCIAL_AUTH_TELEGRAM_BOT_TOKEN = '1613082510:AAGshKSEJ0WcqbgdjpfBidHiSLXlJwxbTNk'
 LOGIN_REDIRECT_URL = reverse_lazy('profile')
+
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+BOT_URL = os.environ.get("BOT_URL")

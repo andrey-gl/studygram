@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('courses.urls')),
     path('', include('users.urls')),
+    path('bot/', include('telegram_bot.urls'))
 ]
 
 if settings.DEBUG:
@@ -30,4 +31,6 @@ if settings.DEBUG:
     urlpatterns = [path('__debug__/', include(debug_toolbar.urls)),
 
                    ] + urlpatterns
+
+
 urlpatterns +=staticfiles_urlpatterns()

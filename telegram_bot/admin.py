@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import TelegramUserStates, States
 
-# Register your models here.
+
+admin.site.register(TelegramUserStates)
+admin.site.register(States)
