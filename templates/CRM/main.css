@@ -49,6 +49,7 @@ text-decoration: none;
 .nav-pills .nav-link .active{
     background: #0b5ed7;
 }
+
 .tooltip-inner {
     background-color: #0b5ed7;
     max-width: 20rem;

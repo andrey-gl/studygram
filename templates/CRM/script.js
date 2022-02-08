@@ -77,11 +77,11 @@ $(function(){
 //----------LIVE-SEARCH----------//
 
 $(document).ready(function(){
-    var array_teacher = [{'id' : '2', 'name' : 'Татьяна', 'surname' : 'Беликова'},{'id' : '3', 'name' : 'Иван', 'surname' : 'Иванов'},{'id' : '4', 'name' : 'Артем', 'surname' : 'Артемов'}];               //  получение массива учителей
-    var array_student = [{'id' : '1', 'name' : 'Геннадий', 'surname' : 'Геннадьев'},{'id' : '2', 'name' : 'Всеволод', 'surname' : 'Всеволодов'},{'id' : '3', 'name' : 'Петр', 'surname' : 'Петров'}];                  //  получение массива студентов
+    var array_teacher = [{'id' : '2', 'name' : 'Татьяна', 'surname' : 'Беликова'},{'id' : '3', 'name' : 'Иван', 'surname' : 'Иванов'},{'id' : '4', 'name' : 'Артем', 'surname' : 'Артемов'}];    //  получение массива учителей
+    var array_student = [{'id' : '1', 'name' : 'Геннадий', 'surname' : 'Геннадьев'},{'id' : '2', 'name' : 'Всеволод', 'surname' : 'Всеволодов'},{'id' : '3', 'name' : 'Петр', 'surname' : 'Петров'}];  //  получение массива студентов
 
     for(var i = 0; i < 3; i++){
-        $('#fil_teach .filter > a').eq(i).text(array_teacher[i]['name'] + ' ' + array_teacher[i]['surname']).attr('href','тык');           //  заполнить списки первыми элементами массива
+        $('#fil_teach .filter > a').eq(i).text(array_teacher[i]['name'] + ' ' + array_teacher[i]['surname']).attr('href','тык');   //  заполнить списки первыми элементами массива
         $('#fil_stud .filter > a').eq(i).text(array_student[i]['name'] + ' ' + array_student[i]['surname']).attr('href','тык');
     }
 
@@ -98,23 +98,22 @@ $(document).ready(function(){
         text_input = text_input.toLowerCase();                          //  получить вводимое значение
         var rez = [];                                                   //  массив с результатом поиска
         for(var i = 0; i < main_arr.length; i++){                       //  в каждом подмассиве основного массива
-            if((main_arr[i]['name'].toLowerCase().indexOf(text_input) !== -1) || (main_arr[i]['surname'].toLowerCase().indexOf(text_input) !== -1)){                 //  найти вводимое значение
+            if((main_arr[i]['name'].toLowerCase().indexOf(text_input) !== -1) || (main_arr[i]['surname'].toLowerCase().indexOf(text_input) !== -1)){ //  найти вводимое значение
                 rez.push(main_arr[i]);                                  //  и записать в массив rez
             }
         }
         for(var i = 0; i < 3; i++){      
-            $(this).parent().find('href').eq(i).text(""); 
+            $(this).parent().find('href').eq(i).text("");           //  очищаем предыдущие ссылки
         }
         if(rez.length < 3){                                                      //  если длина массива с найденными элементами меньше 3
             if(rez.length == 0){                                                 //  если длина массива с нацденными элементами = 0
                 $(this).parent().find('.filter').css('display','none');          //  то скрыть все блоки с классом .filter
                 $(this).parent().find('.no_results').css('display','block');     //  показать блок с классом .no_results
             }else{                                                               //  если длина не 0, но < 3
-                for(var i = 0; i < rez.length; i++){   
-                    console.log(rez[i]['name'] + ' ' + rez[i]['surname']);                                                          //  если длина не 0, но < 3
+                for(var i = 0; i < rez.length; i++){
                     $(this).parent().find('a').eq(i).text(rez[i]['name'] + ' ' + rez[i]['surname']).attr('href','тык');      //  то i-му элементу класса .filter дать значение i-го эелемента массива rez
                 }
-                $(this).parent().find('.filter').slice(rez.length).css('display','none');    //  а все остальные блоки, большbt длинны массива rez, класса .filter скрыть
+                $(this).parent().find('.filter').slice(rez.length).css('display','none');    //  а все остальные блоки, большие длины массива rez, класса .filter скрыть
             }   
         }else{                                  //  иначе, если длина = 3              
             for(var i = 0; i < 3; i++){     
